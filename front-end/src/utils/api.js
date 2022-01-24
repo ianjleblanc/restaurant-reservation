@@ -67,3 +67,12 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+
+export async function createReservation(data) {
+  //post request from client
+  const url = new URL(`${API_BASE_URL}/reservations`);
+  return await fetchJson()
+}
+
+//build endpoint server side
