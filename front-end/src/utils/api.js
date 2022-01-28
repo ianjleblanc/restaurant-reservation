@@ -57,7 +57,8 @@ async function fetchJson(url, options, onCancel) {
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
-
+// /reservations?date=2022-26-01 -- query
+// /reservations/1 --- parameter
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -69,10 +70,16 @@ export async function listReservations(params, signal) {
 }
 
 
-export async function createReservation(data) {
-  //post request from client
-  const url = new URL(`${API_BASE_URL}/reservations`);
-  return await fetchJson()
+export async function createReservation(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations`; 
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+    signal,
+  };
+  return await fetchJson(url, options)
 }
 
-//build endpoint server side
+
+

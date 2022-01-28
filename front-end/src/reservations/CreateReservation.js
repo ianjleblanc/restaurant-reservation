@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-// import {
-//   createReservation,
+import {
+  createReservation,
 //   readReservation,
 //   updateReservation,
-// } from "../utils/api";
+} from "../utils/api";
 
 export default function CreateReservation() {
-
+  const history = useHistory();
 
   const initialFormState = {
     first_name: "",
@@ -16,12 +16,13 @@ export default function CreateReservation() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "",
+    people: 1,
   };
 
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState(initialFormState);
+  const [error, setError] = useState(null);
 
-  const history = useHistory();
+  
 
   function handleCancel() {
     history.goBack()
@@ -35,35 +36,46 @@ export default function CreateReservation() {
   }
 
   async function handleSubmit(e) {
+    formData.people = Number(formData.people)
     e.preventDefault();
-    //call API function to make post request pass it the data
-    console.log("data", formData)
-
-    // display /dashboard page for date of new reserv.
+    // AbortController?
+    const ac = new AbortController();
+    //call API function to make post request 
+    await createReservation(formData, ac.signal).catch(setError)
+    // history.push(`/dashboard?date=${formData.reservation_date}`)
+    setFormData({...initialFormState})
+    return ()=> ac.abort()
+  
+    
   }
 
   return (
     <div>
+      <ErrorAlert error={error} />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="first-name">First Name</label>
+          <label htmlFor="first_name">First Name</label>
           <input
             type="text"
-            class="form-control"
-            id="first-name"
-            aria-describedby="first-name"
+            name="first_name"
+            className="form-control"
+            id="first_name"
+            aria-describedby="first_name"
+            value={formData.first_name}
             onChange={handleChange}
             placeholder="First Name"
           />
-          <label for="last-name">Last Name</label>
+          <label htmlFor="last_name">Last Name</label>
           <input
             type="text"
-            class="form-control"
-            id="last-name"
+            name="last_name"
+            className="form-control"
+            id="last_name"
             placeholder="Last Name"
             onChange={handleChange}
+            value={formData.last_name}
           />
-          <label for="phone">Mobile Number</label>
+          <label htmlFor="phone">Mobile Number</label>
           <input 
           type="tel"
           name="mobile_number"
@@ -82,8 +94,6 @@ export default function CreateReservation() {
             name="reservation_date"
             className="form-control"
             id="reservation_date"
-            // min={format("YYYY-MM-DD")}
-            pattern="\d{4}-\d{2}-\d{2}"
             value={formData.reservation_date}
             onChange={handleChange}
             required
@@ -95,28 +105,26 @@ export default function CreateReservation() {
             name="reservation_time"
             className="form-control"
             id="reservation_time"
-            pattern="[0-9]{2}:[0-9]{2}"
             value={formData.reservation_time}
             onChange={handleChange}
             required
           />
           <label htmlFor="people">Party size</label>
           <input
-            type="text"
+            type="number"
             name="people"
             className="form-control"
             id="people"
-            min={1}
-            placeholder="1"
+            min="1"
             value={formData.people}
             onChange={handleChange}
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        <button onClick={handleCancel} type="button" class="btn btn-primary">
+        <button onClick={handleCancel} type="button" className="btn btn-primary">
           Cancel
         </button>
       </form>
