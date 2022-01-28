@@ -42,11 +42,24 @@ function validDate(req, res, next) {
 function validTime(req, res, next) {
   const { reservation_time } = req.body.data;
   if(reservation_time && !reservation_time.match(timeFormat)) {
-    next({
+    return next({
       status: 400,
       message: "reservation_time must be a time."
     })
   }
+  if (reservation_time < "10:30:00") {
+    return next({
+      status: 400,
+      message: "reservation_time cannot be before 10:30 a.m."
+    })
+  } 
+  if (reservation_time > "21:30") {
+    return next({
+      status: 400,
+      message: "reservation_time must be before 9:30 p.m."
+    })
+  }
+   
   next();
 }
 
