@@ -16,6 +16,11 @@ async function create(req, res) {
   res.status(201).send({ data })
 }
 
+async function read(req, res) {
+  const { reservationId } = req.params
+  const data = await service.read(reservationId)
+  res.json({data})
+}
 
 
 
@@ -153,10 +158,26 @@ function pastDate(req, res, next) {
   next()
 }
 
+async function reservationExists(req, res, next) {
+  const { reservationId } = req.params;
+  const reservation = await reservationsService.read(reservationId);
+
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  } else {
+    return next({
+      status: 404,
+      message: `No reservation found for id '${reservationId}'.`,
+    });
+  }
+} 
+
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
+    asyncErrorBoundary(reservationExists),
     checkTuesday,
     hasData,
     hasOnlyValidProperties,
@@ -168,4 +189,8 @@ module.exports = {
     asyncErrorBoundary(create)
 
   ],
+  read: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(read)
+  ]
 };
