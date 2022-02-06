@@ -1,7 +1,9 @@
 const knex = require("../db/connection");
 
-function list(reservation_date) {
-  return knex("reservations").select("*").orderBy("reservation_time");
+function list() {
+  return knex("reservations")
+    .select("*")
+    .orderBy("reservation_time");
 }
 
 function listByDate(reservation_date) {
@@ -21,7 +23,10 @@ function create(reservation) {
 }
 
 function read(reservation_id) {
-  return knex("reservations").select("*").where({ reservation_id }).first();
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id })
+    .first();
 }
 
 function update(updatedReservation) {
@@ -41,7 +46,10 @@ function updateStatus(reservation_id, status) {
 }
 
 function destroy(reservation_id) {
-  return knex("reservations").select("*").where({ reservation_id }).del();
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id })
+    .del();
 }
 
 function search(mobile_number) {
