@@ -1,37 +1,54 @@
 const knex = require("../db/connection");
 
-async function list() {
+function list() {
     return knex("tables")
         .select("*")
         .orderBy("table_name")
 }
 
-async function update(reservation_id, table_id) {
-    return knex("tables")
-        .where({table_id})
-        .update({reservation_id})
-        .returning("*")
-        .then(table => table[0])
-}
-
-async function create(table) {
+function create(table) {
     return knex("tables")
         .insert(table)
         .returning("*")
         .then(tables => tables[0]);
 }
 
-async function read(table) {
+function update(reservation_id, table_id) {
+    return knex("reservations")
+      .where({ reservation_id })
+      .update({ status: "seated" })
+      .then(() => {
+        return knex("tables")
+          .where({ table_id })
+          .update({ reservation_id })
+          .returning("*");
+      });
+  }
+
+function read(table_id) {
     return knex("tables")
         .select("*")
-        .where("table_id")
+        .where({table_id})
         .first()
 }
+
+function clearTable(table_id, reservation_id) {
+    return knex("reservations")
+      .where({ reservation_id })
+      .update({ status: "finished" })
+      .returning("*")
+      .then(() => {
+        return knex("tables")
+          .where({ table_id })
+          .update({ reservation_id: null })
+          .returning("*")
+      });
+  }
 
 module.exports = {
     list,
     read,
     update,
     create,
-    
+    clearTable,   
 }
