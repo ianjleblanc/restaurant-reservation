@@ -1,7 +1,7 @@
 import React from "react";
 import Reservation from "./Reservation";
 
-const ReservationsList = ({ reservations }) => {
+const ReservationsList = ({ reservations, displayAll }) => {
   return (
     <div>
       <div className="reservations-container">
@@ -9,6 +9,7 @@ const ReservationsList = ({ reservations }) => {
           <Reservation
             key={reservation.reservation_id}
             reservation={reservation}
+            display={displayAll}
           />
         ))}
       </div>

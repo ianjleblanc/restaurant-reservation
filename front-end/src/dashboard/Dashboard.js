@@ -132,7 +132,7 @@ function Dashboard() {
           </a>
         </div>
       )}
-      <ReservationsList reservations={reservations} />
+      <ReservationsList reservations={reservations} displayAll={false}/>
 
       {/* TABLES */}
       <h2 className="text-center dashboard-section-header">Tables</h2>

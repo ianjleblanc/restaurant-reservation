@@ -6,7 +6,7 @@ import { cancelReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 const dayjs = require("dayjs");
 
-const Reservation = ({ reservation }) => {
+const Reservation = ({ reservation, display }) => {
   const [error, setError] = useState(false);
   const history = useHistory();
 
@@ -29,7 +29,7 @@ const Reservation = ({ reservation }) => {
     <div>
       <ErrorAlert error={error} />
 
-      {reservation.status !== "finished" && (
+      {(reservation.status !== "finished" || display)  && (
         <div className="reservation text-center">
           <h2 className="reservation-name">
             {reservation.first_name} {reservation.last_name}
@@ -47,11 +47,13 @@ const Reservation = ({ reservation }) => {
           </p>
 
           <div className="reservation-btns">
+          {reservation.status === "booked" && (
             <a href={`/reservations/${reservation.reservation_id}/edit`}>
               <Button variant="contained" color="info">
                 Edit
               </Button>
             </a>
+            )}
             {reservation.status === "booked" && (
               <a href={`/reservations/${reservation.reservation_id}/seat`}>
                 <Button variant="contained" color="warning">
@@ -59,6 +61,8 @@ const Reservation = ({ reservation }) => {
                 </Button>
               </a>
             )}
+          {reservation.status === "booked" && (
+
             <Button
               variant="contained"
               color="error"
@@ -67,6 +71,8 @@ const Reservation = ({ reservation }) => {
             >
               Cancel
             </Button>
+            )}
+
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../tables/Tables.css";
+import "../table/Tables.css";
 import { listTables, updateTable } from "../utils/api";
 import { Button } from "@mui/material";
 import { useHistory, useParams } from "react-router-dom";

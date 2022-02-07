@@ -163,7 +163,7 @@ const CreateEditReservation = () => {
             className="form-control"
             id="people"
             min={1}
-            placeholder="1"
+            placeholder="0"
             value={formData.people}
             onChange={handleNumberInput}
             required

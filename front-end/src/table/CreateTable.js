@@ -66,7 +66,7 @@ const CreateTable = () => {
             name="capacity"
             className="form-control"
             id="capacity"
-            placeholder="1"
+            placeholder="0"
             min={1}
             value={formData.capacity}
             onChange={handleNumberInput}

@@ -62,7 +62,7 @@ const Search = () => {
       </form>
 
       {reservations.length > 0 && (
-        <ReservationsList reservations={reservations} />
+        <ReservationsList reservations={reservations} displayAll={true}/>
       )}
       {noResults && reservations.length === 0 ? (
         <h3>No reservations found</h3>
