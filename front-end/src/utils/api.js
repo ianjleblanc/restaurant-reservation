@@ -60,6 +60,7 @@ async function fetchJson(url, options, onCancel) {
 // /reservations?date=2022-26-01 -- query
 // /reservations/1 --- parameter
 export async function listReservations(params, signal) {
+  console.log("config vars", process.env)
  if (params) { 
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
