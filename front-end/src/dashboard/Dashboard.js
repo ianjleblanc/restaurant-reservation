@@ -4,7 +4,7 @@ import { previous, next, today } from "../utils/date-time";
 import { Button } from "@mui/material";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsList from "../reservations/ReservationsList";
-import Table from "../tables/Table";
+import Table from "../table/Table";
 import { useLocation, useHistory } from "react-router-dom";
 const dayjs = require("dayjs");
 

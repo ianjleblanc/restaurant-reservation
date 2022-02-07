@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import "./Tables.css";
+import "./Tables.css";
 import { Button } from "@mui/material";
 import { listReservations, clearTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
