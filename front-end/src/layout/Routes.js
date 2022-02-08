@@ -2,10 +2,11 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
-import CreateEditReservation from "../reservations/CreateEditReservation";
 import CreateTable from "../table/CreateTable";
 import SeatReservation from "../reservations/SeatReservation";
 import Search from "../search/Search";
+import CreateReservation from "../reservations/CreateReservation";
+import EditReservation from "../reservations/EditReservation";
 
 function Routes() {
   return (
@@ -14,10 +15,10 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route exact={true} path="/reservations/new">
-        <CreateEditReservation />
+        <CreateReservation />
       </Route>
       <Route exact={true} path="/reservations/:reservationId/edit">
-        <CreateEditReservation />
+        <EditReservation />
       </Route>
       <Route exact={true} path="/reservations/:reservationId/seat">
         <SeatReservation />
