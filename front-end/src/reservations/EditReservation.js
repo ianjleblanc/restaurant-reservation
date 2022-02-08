@@ -20,6 +20,7 @@ const EditReservation = () => {
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
+  
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -41,7 +42,7 @@ const EditReservation = () => {
     // eslint-disable-next-line
   }, [reservationId]);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(formData, setFormData, e) {
     e.preventDefault();
     const abortController = new AbortController();
     try {
@@ -60,11 +61,10 @@ const EditReservation = () => {
       <h1 className="text-center create-header">Edit a Reservation</h1>
 
       <ErrorAlert error={error} />
-      <ReservationForm
+      {formData.people ?<ReservationForm
         handleSubmit={handleSubmit}
-        formData={formData}
-        setFormData={setFormData}
-      />
+        initialFormState={formData} 
+      />  : null}
     </div>
   );
 };

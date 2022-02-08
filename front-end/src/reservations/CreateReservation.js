@@ -18,15 +18,14 @@ const CreateReservation = () => {
     people: "",
   };
 
-  const [formData, setFormData] = useState({ ...initialFormState });
 
-  async function handleSubmit(e) {
+  async function handleSubmit(formData, setFormData, e) {
     e.preventDefault();
     const abortController = new AbortController();
     try {
       await createReservation(formData, abortController.signal);
-      history.push(`/dashboard?date=${formData.reservation_date}`);
       setFormData({ ...initialFormState });
+      history.push(`/dashboard?date=${formData.reservation_date}`);
     } catch (err) {
       setError(err);
     }
@@ -39,7 +38,7 @@ const CreateReservation = () => {
       <h1 className="text-center create-header">Create a Reservation</h1>
 
       <ErrorAlert error={error} />
-      <ReservationForm handleSubmit={handleSubmit} formData={formData} setFormData={setFormData}/>
+      <ReservationForm handleSubmit={handleSubmit} initialFormState={initialFormState}/>
       
     </div>
   );

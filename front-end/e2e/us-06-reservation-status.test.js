@@ -60,6 +60,7 @@ describe("US-06 - Reservation status - E2E", () => {
         path: ".screenshots/us-06-dashboard-displays-status.png",
         fullPage: true,
       });
+      
 
       const containsBooked = await containsText(
         page,

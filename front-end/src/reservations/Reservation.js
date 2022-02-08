@@ -42,7 +42,7 @@ const Reservation = ({ reservation, display }) => {
           </p>
           <p>Reservation Time: {reservation.reservation_time}</p>
           <p>People: {reservation.people}</p>
-          <p data-reservation-id-status={`${reservation.reservation_id}`}>
+          <p data-reservation-id-status={reservation.reservation_id}>
             Status: {reservation.status}
           </p>
 

@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Reservation.css";
 import { Button } from "@mui/material";
 import { useHistory } from "react-router-dom";
-const dayjs = require("dayjs");
 
-const ReservationForm = ({ formData, setFormData, handleSubmit }) => {
+
+const ReservationForm = ({ initialFormState, handleSubmit }) => {
   const history = useHistory();
+  const [formData, setFormData] = useState({ ...initialFormState });
+  
+  
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
   const handleNumberInput = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: Number(e.target.value),
+      [e.target.name]: Number(e.target.value),
     });
   };
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    handleSubmit(formData, setFormData, e)
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={submitHandler}>
       <div className="form-group">
         <label htmlFor="first_name">First Name</label>
         <input
@@ -65,8 +73,6 @@ const ReservationForm = ({ formData, setFormData, handleSubmit }) => {
           name="reservation_date"
           className="form-control"
           id="reservation_date"
-          min={dayjs().format("YYYY-MM-DD")}
-          pattern="\d{4}-\d{2}-\d{2}"
           value={formData.reservation_date}
           onChange={handleChange}
           required
@@ -78,7 +84,6 @@ const ReservationForm = ({ formData, setFormData, handleSubmit }) => {
           name="reservation_time"
           className="form-control"
           id="reservation_time"
-          pattern="[0-9]{2}:[0-9]{2}"
           value={formData.reservation_time}
           onChange={handleChange}
           required
